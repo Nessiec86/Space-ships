@@ -7,12 +7,30 @@ Is a single player 2D videogame, (Shoot 'em up) genre.
 MVP definition, deliverables.
 Developed with CANVAS, one ship with keyboard movements and one key for shot, one kind of enemie-ship with own type of shot and movement.
 
+## Backlog
+  - Different ship types with own skills.
+  - Different enemies (movements, types).
+  - More weapons.
+  - More levels.
+
 ## Data structure
 Classes and methods definition.
   - New game Class
+    - Start Game
+    - Draw Background
+    - Draw Ship
+    - Control Keys
+    - Game Over
   - Ship Class
+    - Movements
+    - Skills
   - Enemies Class
+    - Movements
+    - Skills
   - Guns Class
+    - Ship weapon
+    - Enemie weapon
+    
  
 ## States y States Transitions
 Definition of the different states and their transition (transition functions)
