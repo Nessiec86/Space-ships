@@ -34,10 +34,10 @@ Classes and methods definition.
  
 ## States y States Transitions
 Definition of the different states and their transition (transition functions)
-  - startScreen
-  - selectorScreen
-  - gameScreen
-  - gameoverScreen
+  - startScreen (Initial screen with tittle and a Start Button)
+  - selectorScreen (Screen for choise the ship) 
+  - gameScreen (The game board)
+  - gameoverScreen (Draw or show GameOver at the end of the game)
 
 ## Task
 Task definition in order of priority
