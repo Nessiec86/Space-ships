@@ -26,6 +26,9 @@ class Game {
         this._update();
     }
 
+
+    
+
     _update () {
         this._clear();
         this._drawBoard();
@@ -33,5 +36,3 @@ class Game {
     }
 };
 
-console.log("dentro de game");
-console.log(this.rows, this.columns, this.ship, this.ctx);

@@ -8,8 +8,30 @@ window.onload = function () {
         columns: canvas.width / widthCell,
         ship: new Ship(canvas.height / widthCell/*MaxRows*/, canvas.width / widthCell/*MaxColumns*/),
         ctx: ctx,
+    
     });
-
+    //DOOM
+    let btnstart = document.getElementById("btnstart");
+    let btnend = document.getElementById("btnend");
+    btnstart.onclick = buttonstart;
+    btnend.onclick = buttonend;
+    //INICIO DE JUEGO
     game.start();
 }
 
+//START
+function buttonstart(){
+    let start = document.getElementById("start");
+    let game = document.getElementById("game");
+    let end = document.getElementById("end");
+    end.style.display = "flex";
+    game.style.display = "flex";
+    start.style.display = "none";
+}
+
+function buttonend(){
+    let gameover = document.getElementById("gameover");
+    end.style.display = "none";
+    gameover.style.display = "flex";
+    game.style.display = "none";
+}

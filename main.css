@@ -1,0 +1,41 @@
+#start{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    border: 5px solid red;
+    max-width: 650px;
+}
+#btnstart{
+    padding: 0 10px;
+    border: 2px solid red;
+    border-radius: 5px;
+    background-color: blue;
+    color: white;
+    margin: 50% 0;
+}
+#game{
+    margin: auto;
+    height: 650px;
+    width: 650px;
+    display:none ;
+    justify-content:center;
+    border: 5px solid red;
+}
+canvas{
+    align-self: center;
+}
+#end{
+    display: none;
+    justify-content: center;
+}
+#btnend{
+    padding: 0 10px;
+    border: 2px solid red;
+    border-radius: 5px;
+    background-color: blue;
+    color: white;
+}
+#gameover{
+    display:none;
+    justify-content:center;
+}
