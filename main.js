@@ -8,14 +8,20 @@ window.onload = function () {
         columns: canvas.width / widthCell,
         ship: new Ship(canvas.height / widthCell/*MaxRows*/, canvas.width / widthCell/*MaxColumns*/),
         ctx: ctx,
-    
+        shot: new Shot(58,30,canvas.height / widthCell/*MaxRows*/,canvas.width / widthCell/*MaxColumns*/),
     });
+    
     //DOOM
     let btnstart = document.getElementById("btnstart");
     let btnend = document.getElementById("btnend");
+    let btnreturn = document.getElementById("btnreturn");
     btnstart.onclick = buttonstart;
     btnend.onclick = buttonend;
-    //INICIO DE JUEGO
+    btnreturn.onclick = buttonreturn;
+        
+    
+    //IMAGEN
+    //INICIO DE JUEGO !!!
     game.start();
 }
 
@@ -27,6 +33,7 @@ function buttonstart(){
     end.style.display = "flex";
     game.style.display = "flex";
     start.style.display = "none";
+    
 }
 
 function buttonend(){
@@ -34,4 +41,10 @@ function buttonend(){
     end.style.display = "none";
     gameover.style.display = "flex";
     game.style.display = "none";
+    
+}
+
+function buttonreturn(){
+    gameover.style.display = "none";
+    start.style.display = "flex";
 }
