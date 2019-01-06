@@ -4,7 +4,8 @@ class Game {
         this.columns = options.columns;
         this.ship = options.ship;
         this.ctx = options.ctx;
-        this.shot = options.shot;
+        this.lives = options.lives;
+        this.points = options.points;
     }
     // CONTROLES NAVE PRINCIPAL
     _assignControlsToKeys () {
@@ -23,8 +24,7 @@ class Game {
               this.ship.goRight();
               break;
             case 32: //space
-              this.shot.goShot();
-              this.shot.move();
+              this.ship.start();
               break; 
             case 80: // p pause
               this.ship.intervalId ? this.ship.stop() : this.ship.start()
@@ -32,6 +32,13 @@ class Game {
           }
         };
     }
+    //BACKGROUND
+    _moveBackground () {
+         if (!this.intervalId) {
+          this.intervalId = setInterval(this._moveBackground.bind(this), 10);
+        }
+    }
+    
     //BOARD
     _drawBoard () {
         this.ctx.fillStyle = "#000000";
@@ -40,17 +47,47 @@ class Game {
     //SHIP
     _drawShip () {
         this.ship.body.forEach((position) => {
-            this.ctx.fillStyle = "red";
-            this.ctx.fillRect(position.column * 10, position.row * 10, 10, 10);
+            const img = new Image ();
+            img.src = "Assets/milenium-falcon1.png";
+            this.ctx.drawImage(img,position.column * 9.7,position.row * 9 );
+            //this.ctx.fillStyle = "red";
+            //this.ctx.fillRect(position.column * 10, position.row * 10, 10, 10);
+            //this.ctx.fill();
         });
     }
-    //SHIP SHOT
+    _score(){
+        this.ctx.font = "bold 16px sans-serif";
+	    this.ctx.fillStyle = "white";
+	    this.ctx.fillText("Score: "+this.points, 10, 20);
+	    this.ctx.fillText("Lives: "+this.lives, 535, 20);
+	
+	    if(this.lives <= 0){
+		    clearTimeout(game);
+		    this.ctx.font = "bold 20px sans-serif";
+		    this.ctx.fillStyle = "yellow";
+		    this.ctx.fillText("Game Over!", 160, 160);
+	    }
+    }
     _drawBullet () {
+            this.ship.body.forEach((position) => {
+                this.ctx.fillStyle = "yellow";
+                //this.ctx.fillRect( position.column * 10, position.row * 10, 10, 10);
+                this.ctx.arc(position.column * 10.37, position.row * 8.9, 5, 0, Math.PI*2);
+                this.ctx.fill();
+            });
+    }
+    
+    //SHIP SHOT
+    /*_drawBullet () {
         this.shot.body.forEach((position) => {
             this.ctx.fillStyle = "yellow";
-            this.ctx.fillRect(position.column * 10, position.row * 10, 10, 10);
+            //this.ctx.fillRect( position.column * 10, position.row * 10, 10, 10);
+            this.ctx.arc(position.column * 10, position.row * 10, 5, 0, Math.PI*2);
+            this.ctx.fill();
         });
+        
     }
+    */
     _drawX(){
         const img = new Image ();
         img.src = "Assets/x-wing1.png";
@@ -72,6 +109,7 @@ class Game {
         this._drawBoard();
         this._drawX();
         this._drawShip();
+        this._score();
         this._drawBullet();
         if (this.intervalGame !== undefined) {
             this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
