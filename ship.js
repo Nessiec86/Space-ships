@@ -4,6 +4,7 @@ class Ship {
           { row: 59, column: 30 },
           ];
        this.bullets = [];
+       this.newinvader = [];
        this.maxRows = maxRows;
        this.maxColumns = maxColumns;
        this.intervalId = undefined;
@@ -20,21 +21,6 @@ class Ship {
         this.previousposition = this.body.pop();
         
     }
-    _shot(){
-        this.bullets.push(new Shot (this.body[0].column,this.body[0].row,2,5,1,this.ctx));
-        console.log(this.bullets);
-       }
-    
-   
-    start () {
-        this.move();
-      }
-    
-      move () {
-        if (!this.intervalId) {
-          this.intervalId = setInterval(this._goShot.bind(this), 70);
-        }
-      }
     goDown () {
         var head = this.body[0];
         this.body.unshift({
@@ -59,11 +45,22 @@ class Ship {
         })
         this.previousposition = this.body.pop();
     }
-    
+    //SHIP SHOT
+    _shot(){
+        this.bullets.push(new Shot (this.body[0].column,this.body[0].row,5,8,1,this.ctx));
+        }
+
+    _invader (){
+        if (!this.intervalId) {
+            this.intervalId = setInterval(this._invader.bind(this), 5000);
+          } 
+          this.newinvader.push(new Invader((Math.floor(Math.random() * ((this.maxRows *10) - 0)) + 0),0,10,10,1,1,this.ctx));
+        }
+
+    //SCREEN
     _clear() {
         this.ctx.clearRect(0, 0, this.rows * 10, this.columns * 10);
     } 
-    
     stop () {
         if ( this.intervalId ) {
           clearInterval(this.intervalId)

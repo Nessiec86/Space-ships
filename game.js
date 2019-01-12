@@ -39,6 +39,7 @@ class Game {
     start() {
         this._assignControlsToKeys();
         this._update();
+        this.ship._invader();
         this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
     }
     //UPDATE SCREEN
@@ -46,38 +47,61 @@ class Game {
         this._clear();
         this._drawBoard();
         this._drawShip();
-        this._drawBullet();
+        this._drawShot();
+        this._drawInvader();
+        //this._drawInvaderShot();
         this._score();
         if (this.intervalGame !== undefined) {
             this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
         }
     }
+    
     //BACKGROUND
     _moveBackground () {
         if (!this.intervalId) {
          this.intervalId = setInterval(this._moveBackground.bind(this), 10);
        }
     }
-    _drawBullet(){
-        this.ship.bullets.forEach(function(bullet) {
-            bullet._drawBullet ();
-            bullet._update();
-        });
-    }
-   
+    
    //BOARD
    _drawBoard () {
-       this.ctx.fillStyle = "#000000";
-       this.ctx.fillRect(0,0, this.rows * 10, this.columns * 10);
+        //this.ctx.fillStyle = "#000000";
+        //this.ctx.fillRect(0,0, this.rows * 10, this.columns * 10);
+        const img = new Image ();
+          img.src = "Assets/Space.png";
+          this.ctx.drawImage(img,0,0 );
+        
    }
    //SHIP
    _drawShip () {
-       this.ship.body.forEach((position) => {
+        this.ship.body.forEach((position) => {
           const img = new Image ();
           img.src = "Assets/milenium-falcon1.png";
           this.ctx.drawImage(img,position.column * 9.7,position.row * 9 );
         });
    }
+   //SHOT
+   _drawShot(){
+        this.ship.bullets.forEach(function(bullet,i,array) {
+            bullet._drawShot();
+            bullet._clearShot(bullet,i,array);
+            bullet._update();
+        });
+    }
+    //INVADER
+    _drawInvader () {
+       this.ship.newinvader.forEach(function(newinvader, i, array){
+           newinvader._drawInvader();
+           newinvader._update();
+           newinvader._clearInvader(newinvader, i, array);
+           //newinvader._randomShot(newinvader);
+           //newinvader._updateShot(newinvader);
+        })
+    }
+    //INVADER SHOT
+    _drawInvaderShot () {
+
+    }
 
    //SCORE
    _score(){
