@@ -3,13 +3,12 @@ class Ship {
        this.body = [
           { row: 59, column: 30 },
           ];
-       this.shot = this.body[0] -1;
+       this.bullets = [];
        this.maxRows = maxRows;
        this.maxColumns = maxColumns;
        this.intervalId = undefined;
        this.ctx = ctx;
     }
-    
     
     //MOVE SHIP
     goUp () {
@@ -19,7 +18,23 @@ class Ship {
             column: head.column,
         })
         this.previousposition = this.body.pop();
+        
     }
+    _shot(){
+        this.bullets.push(new Shot (this.body[0].column,this.body[0].row,2,5,1,this.ctx));
+        console.log(this.bullets);
+       }
+    
+   
+    start () {
+        this.move();
+      }
+    
+      move () {
+        if (!this.intervalId) {
+          this.intervalId = setInterval(this._goShot.bind(this), 70);
+        }
+      }
     goDown () {
         var head = this.body[0];
         this.body.unshift({
@@ -44,34 +59,20 @@ class Ship {
         })
         this.previousposition = this.body.pop();
     }
-    //SHIP SHOT
-    start () {
-        this.move();
-        }
-    move () {
-         if (!this.intervalId) {
-          this.intervalId = setInterval(this.goShot.bind(this), 20);
-        }
-    } 
     
-    goShot () {
-        //const shot = new Shot(this.body[0].row,this.body[0].column,this.maxRows,this.maxColumns, this.ctx);
-        //shot.start(); 
-        console.log(this.shot[0].row)
-        var bullet = this.shot[0];
-        this.shot.unshift({
-                row: ((bullet.row - 1 )+ this.maxRows ) % this.maxRows,
-                column: bullet.column,
-            })
-        
-        this.previousposition = this.shot.pop();
-    }
+    _clear() {
+        this.ctx.clearRect(0, 0, this.rows * 10, this.columns * 10);
+    } 
     
     stop () {
         if ( this.intervalId ) {
           clearInterval(this.intervalId)
           this.intervalId = undefined;
         }
-    }  
+    } 
 };
+
+    
+ 
+
     

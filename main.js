@@ -5,13 +5,15 @@ window.onload = function () {
     const widthCell = 10;
     const lives = 5;
     const points = 0;
+    const bullets = [];
     const game = new Game({
         rows: canvas.height / widthCell,
         columns: canvas.width / widthCell,
-        ship: new Ship(canvas.height / widthCell/*MaxRows*/, canvas.width / widthCell/*MaxColumns*/,ctx),
+        ship: new Ship ( canvas.height / widthCell/*MaxRows*/, canvas.width / widthCell/*MaxColumns*/,ctx),
         ctx: ctx,
         lives: lives,
         points: points,
+        bullets: bullets,
     });
     
     //DOOM
@@ -23,7 +25,6 @@ window.onload = function () {
     btnreturn.onclick = buttonreturn;
         
     
-    //IMAGEN
     //INICIO DE JUEGO !!!
     
   game.start();
