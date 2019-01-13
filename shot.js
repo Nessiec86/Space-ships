@@ -9,8 +9,12 @@ class Shot {
         
     }
     _drawShot () {
-       this.ctx.fillStyle = 'lime';
-       this.ctx.fillRect((this.shipX * 10) + 10,(this.shipY * 10),this.witdh, this.height);
+       //this.ctx.fillStyle = 'lime';
+       //this.ctx.fillRect((this.shipX * 10) + 10,(this.shipY * 10),this.witdh, this.height);
+        const img = new Image ();
+        img.src = "Assets/shot.png";
+        this.ctx.drawImage(img,(this.shipX * 10) + 10,(this.shipY * 10) - 75);
+        
     }
     _clearShot(bullet, i, array){
         if (bullet.shipY <= 0){

@@ -5,6 +5,7 @@ class Ship {
           ];
        this.bullets = [];
        this.newinvader = [];
+       this.newasteroid = [];
        this.maxRows = maxRows;
        this.maxColumns = maxColumns;
        this.intervalId = undefined;
@@ -49,14 +50,21 @@ class Ship {
     _shot(){
         this.bullets.push(new Shot (this.body[0].column,this.body[0].row,5,8,1,this.ctx));
         }
-
+    //NEW INVADER
     _invader (){
         if (!this.intervalId) {
-            this.intervalId = setInterval(this._invader.bind(this), 5000);
-          } 
-          this.newinvader.push(new Invader((Math.floor(Math.random() * ((this.maxRows *10) - 0)) + 0),0,10,10,1,1,this.ctx));
-        }
-
+            this.intervalId = setInterval(this._invader.bind(this), 1000);
+        } 
+        this.newinvader.push(new Invader((Math.floor(Math.random() * ((this.maxRows *10) - 0)) + 0),0,10,10,1,1,this.ctx));
+    }
+    //NEW ASTEROID
+    _asteroid (){
+        if (!this.intervalId) {
+            this.intervalId = setInterval(this._asteroid.bind(this), 2000);
+        } 
+        this.newasteroid.push(new Asteroid((Math.floor(Math.random() * ((this.maxRows *10) - 0)) + 0),0,10,10,1,this.ctx));
+    }
+    
     //SCREEN
     _clear() {
         this.ctx.clearRect(0, 0, this.rows * 10, this.columns * 10);

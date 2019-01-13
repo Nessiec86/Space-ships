@@ -28,30 +28,32 @@ window.onload = function () {
         
     
     //INICIO DE JUEGO !!!
-    
-  game.start();
-    
-}
+    function init() {
+        game.start();
+    }
 
-//START
-function buttonstart(){
-    let start = document.getElementById("start");
-    let game = document.getElementById("game");
-    let end = document.getElementById("end");
-    end.style.display = "flex";
-    game.style.display = "flex";
-    start.style.display = "none";
-}
+    //START
+    function buttonstart(){
+        let start = document.getElementById("start");
+        let game = document.getElementById("game");
+        let end = document.getElementById("end");
+        end.style.display = "flex";
+        game.style.display = "flex";
+        start.style.display = "none";
+        init();
+    }
 
-function buttonend(){
-    let gameover = document.getElementById("gameover");
-    end.style.display = "none";
-    gameover.style.display = "flex";
-    game.style.display = "none";
+    };
+
+    function buttonend(){
+        let gameover = document.getElementById("gameover");
+        end.style.display = "none";
+        gameover.style.display = "flex";
+        game.style.display = "none";
+        }
     
-}
-
-function buttonreturn(){
-    gameover.style.display = "none";
-    start.style.display = "flex";
-}
+        function buttonreturn(){
+            gameover.style.display = "none";
+            start.style.display = "flex";
+    }
+    
