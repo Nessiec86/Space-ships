@@ -29,7 +29,7 @@ class Game {
               this.ship._shot();
               break; 
             case 80: // p pause
-              this.ship.intervalId ? this.ship.stop() : this.ship.start()
+              this.ship.intervalId ? this.ship._stop() : this.ship.start()
               break;
           }
         };
@@ -41,6 +41,7 @@ class Game {
         this._update();
         this.ship._invader();
         this.ship._asteroid();
+        
         this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
     }
     //UPDATE SCREEN
@@ -50,9 +51,11 @@ class Game {
         this._drawShip();
         this._drawShot();
         this._drawInvader();
-        //this._drawInvaderShot();
+        this._drawInvaderShot();
         this._drawAsteroid();
         this._score();
+        this.ship._invaderShot();
+        
         if (this.intervalGame !== undefined) {
             this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
         }
@@ -92,18 +95,21 @@ class Game {
     }
     //INVADER
     _drawInvader(){
-       this.ship.newinvader.forEach(function(newinvader, i, array){
+        this.ship.newinvader.forEach(function(newinvader, i, array){
             newinvader._drawInvader();
             newinvader._update();
             newinvader._clearInvader(newinvader, i, array);
-            //newinvader._randomShot(newinvader);
-            //newinvader._updateShot(newinvader);
         });
     }
     //INVADER SHOT
     _drawInvaderShot(){
-
+        this.ship.invaderBullets.forEach(function(bullet, i, array){
+            bullet._drawShot();
+            bullet._update();
+            bullet._clearShot(bullet, i, array);
+        });
     }
+    
     //ASTEROID
     _drawAsteroid(){
         this.ship.newasteroid.forEach(function(newasteroid, i, array){

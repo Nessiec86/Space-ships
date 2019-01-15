@@ -7,6 +7,7 @@ window.onload = function () {
     const points = 0;
     const bullets = [];
     const invaderbullets = [];
+    const counter = 0;
     const game = new Game({
         rows: canvas.height / widthCell,
         columns: canvas.width / widthCell,
@@ -16,6 +17,7 @@ window.onload = function () {
         points: points,
         bullets: bullets,
         invaderbullets: invaderbullets,
+        counter: counter,
     });
     
     //DOOM
@@ -31,7 +33,9 @@ window.onload = function () {
     function init() {
         game.start();
     }
-
+    function stop(){
+        game._pause();
+    }
     //START
     function buttonstart(){
         let start = document.getElementById("start");
@@ -42,8 +46,17 @@ window.onload = function () {
         start.style.display = "none";
         init();
     }
-
-    };
+    function buttonend(){
+        let gameover = document.getElementById("gameover");
+        let game = document.getElementById("game");
+        let end = document.getElementById("end");
+        end.style.display = "none";
+        gameover.style.display = "flex";
+        game.style.display = "none";
+        stop();
+    }
+    
+};
 
     function buttonend(){
         let gameover = document.getElementById("gameover");

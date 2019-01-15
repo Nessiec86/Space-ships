@@ -20,7 +20,6 @@ class Shot {
         if (bullet.shipY <= 0){
             array.splice(i, 1);
         }
-        console.log(bullet);
     }
     _update (){
         this.shipY = this.shipY - this.speed;    
