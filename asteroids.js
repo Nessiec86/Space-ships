@@ -9,7 +9,6 @@ class Asteroid {
     }
     
     _drawAsteroid(){
-        console.log("asteroide!");
         this.ctx.fillStyle = "yellow";
         this.ctx.fillRect(this.randomX,this.asteroidY,10,10);
     }

@@ -54,7 +54,6 @@ class Game {
         this._score();
         this.ship._invaderShot();
         this.ship._asteroid();
-        
         if (this.intervalGame !== undefined) {
             this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
         }

@@ -70,7 +70,6 @@ class Ship {
         }
         this.newcounter+=1;
     }
-    
     //INVADER SHOT
     _invaderShot(){
         if (this.counter % 100 === 0) {
@@ -83,7 +82,32 @@ class Ship {
         console.log(this.counter);
         
     }
-    
+    // COLLISIONS
+    _collisionsCheck(a, b) {
+        a.x < b.x + b.width &&
+           a.x + a.width > b.x &&
+           a.y < b.y + b.height &&
+           a.y + a.height > b.y;
+    }
+    _collisionOccurs() {
+        pBullets.forEach(function(bullet) {
+        enemies.forEach(function(enemy) {
+            if (collisionCheck(bullet, enemy)) {
+                bullet.die();
+                enemy.die();
+            }
+        });
+        enemies.forEach(function(enemy) {
+            if (collisionCheck(enemy, player)) {
+              if (hit_delay === 0) {
+                enemy.die();
+                player.getHit();
+              }
+            }
+          });
+        
+    });
+    }
     //SCREEN
     _clear() {
         this.ctx.clearRect(0, 0, this.rows * 10, this.columns * 10);

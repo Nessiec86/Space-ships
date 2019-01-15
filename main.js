@@ -60,15 +60,8 @@ window.onload = function () {
     
 };
 
-    function buttonend(){
-        let gameover = document.getElementById("gameover");
-        end.style.display = "none";
-        gameover.style.display = "flex";
-        game.style.display = "none";
-        }
-    
-        function buttonreturn(){
-            gameover.style.display = "none";
-            start.style.display = "flex";
-    }
+function buttonreturn(){
+    gameover.style.display = "none";
+    start.style.display = "flex";
+}
     
