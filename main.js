@@ -8,6 +8,7 @@ window.onload = function () {
     const bullets = [];
     const invaderbullets = [];
     const counter = 0;
+    const newcounter = 0;
     const game = new Game({
         rows: canvas.height / widthCell,
         columns: canvas.width / widthCell,
@@ -18,6 +19,7 @@ window.onload = function () {
         bullets: bullets,
         invaderbullets: invaderbullets,
         counter: counter,
+        newcounter: newcounter,
     });
     
     //DOOM

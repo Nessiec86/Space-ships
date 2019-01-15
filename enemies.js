@@ -1,5 +1,5 @@
 class Invader {
-    constructor(randomX,invaderY,witdh,height,speed,shotspeed,ctx) {
+    constructor(randomX,invaderY,witdh,height,speed,ctx) {
         this.randomX = randomX;
         this.invaderY = invaderY;
         this.witdh = witdh;
