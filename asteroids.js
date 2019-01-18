@@ -6,11 +6,12 @@ class Asteroid {
         this.height = height;
         this.speed = speed;
         this.ctx = ctx;
+        this.image = new Image ();
+        this.image.src = "Assets/asteroid1x.png";
     }
     
     _drawAsteroid(){
-        this.ctx.fillStyle = "yellow";
-        this.ctx.fillRect(this.randomX,this.asteroidY,10,10);
+        this.ctx.drawImage(this.image, this.randomX, this.asteroidY, this.witdh, this.height)
     }
     _clearAsteroid(newasteroid, i, array){
         if (newasteroid.asteroidY >= 590){

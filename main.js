@@ -5,12 +5,6 @@ window.onload = function () {
     const widthCell = 10;
     const lives = 5;
     const points = 0;
-    const bullets = [];
-    const invaderbullets = [];
-    const counter = 0;
-    const newcounter = 0;
-    const width = 0;
-    const height = 0;
     const game = new Game({
         rows: canvas.height / widthCell,
         columns: canvas.width / widthCell,
@@ -18,12 +12,6 @@ window.onload = function () {
         ctx: ctx,
         lives: lives,
         points: points,
-        bullets: bullets,
-        invaderbullets: invaderbullets,
-        counter: counter,
-        newcounter: newcounter,
-        width: width,
-        height: height,
     });
     
     //DOOM

@@ -13,6 +13,7 @@ class Game {
         this.counter = 0;
         this.newcounter = 0;
         this.newasteroid = [];
+        this.collision = false;
     }
 
     // CONTROLES NAVE PRINCIPAL
@@ -32,7 +33,7 @@ class Game {
               this.ship.goRight();
               break;
             case 32: //space  
-              this.ship._shot();
+              this.ship.shot();
               break; 
             case 80: // p pause
               this.ship.intervalId ? this.ship._stop() : this.ship.start()
@@ -44,15 +45,15 @@ class Game {
     // función para generar invaders, push a this.invaders cada X ms. NEW INVADER
     _generateInvaders() {
         if (!this.intervalId) {
-            this.intervalId = setInterval(this._generateInvaders.bind(this), 100);
+            this.intervalId = setInterval(this._generateInvaders.bind(this), 2000);
         } 
-        this.newinvader.push(new Invader((Math.floor(Math.random() * ((this.ship.maxColumns * 10) - 0)) + 0),0,10,10,1,this.ctx,this.invaderBullets));
+        this.newinvader.push(new Invader((Math.floor(Math.random() * ((this.ship.maxRows) - 0)) + 0),0,35,34,1,this.ctx,this.invaderBullets));
     };
     //INVADER SHOT
     _generateInvaderShot(){
         if (this.counter % 100 === 0) {
             this.newinvader.forEach((newinvader) =>{
-                this.invaderBullets.push(new Invadershot(newinvader.randomX + 2,newinvader.invaderY + 10,5,8,2,this.ctx));
+                this.invaderBullets.push(new Invadershot(newinvader.randomX + 15,newinvader.invaderY + 10,5,8,2,this.ctx));
             });
         };
         this.counter+=1;
@@ -60,11 +61,10 @@ class Game {
     //NEW ASTEROID
     _generateAsteroid (){
         if (this.newcounter % 500 === 0){
-            this.newasteroid.push(new Asteroid((Math.floor(Math.random() * ((this.ship.maxRows *10) - 0)) + 0),0,10,10,2,this.ctx));
+            this.newasteroid.push(new Asteroid((Math.floor(Math.random() * ((this.ship.maxRows) - 0)) + 0),0,60,60,0.5,this.ctx));
             }
         this.newcounter+=1;
     };
-
     
     //INICIO
     start(){
@@ -89,7 +89,7 @@ class Game {
        
         
         this._score();
-        // this._controlCollision();
+        this._controlCollision();
         if (this.intervalGame !== undefined) {
             this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
         }
@@ -141,26 +141,33 @@ class Game {
             newasteroid._clearAsteroid(newasteroid, i, array);
         });
     }
-    /*//COLLISION
+    //COLLISION
     _controlCollision(){
-        console.log(this.ship.invaderBullets);
-        this.ship.invaderBullets.forEach((elem) => {
+
+        this.invaderBullets.forEach((invaderShot) => {
             
+            /*if((this.ship.bodyX + this.ship.image.width) >=
+                (this.invaderBullets.randomShotX) <= 
+                (this.invaderBullets.randomShotX + 5) && 
+                (this.ship.bodyY + this.ship.image.height) >= 
+                (this.invaderBullets.invaderShotY) && 
+                (this.ship.bodyY) <= 
+                (this.invaderBullets.invaderShotY + 8))
+            {*/
+            if (this.ship.bodyX < invaderShot.randomShotX + invaderShot.width &&
+                this.ship.bodyX + this.ship.image.width > invaderShot.randomShotX &&
+                this.ship.bodyY < invaderShot.invaderY + invaderShot.height &&
+                this.ship.image.height + this.ship.bodyY > invaderShot.invaderY) {
+            console.log("colisionnn");
+            } else {
+                console.log("nada");
+            };
         });
         
-        if((this.ship.body[0].row + this.ship.width) >=
-         (this.ship.invaderBullets.randomX) <= 
-         (this.ship.invaderBullets.randomX + 5) && 
-         (this.ship.body[0].column + this.ship.height) >= 
-         (this.invaderBullets.invaderY) && 
-         (this.ship.body[0].column) <= 
-         (this.ship.invaderBullets.invaderY +8))
-        {
-            return true
-            
         };
+        
+        
     
-    };*/
     //SCORE
     _score(){
         this.ctx.font = "bold 16px sans-serif";
