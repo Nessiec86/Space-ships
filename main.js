@@ -9,10 +9,12 @@ window.onload = function () {
     const invaderbullets = [];
     const counter = 0;
     const newcounter = 0;
+    const width = 0;
+    const height = 0;
     const game = new Game({
         rows: canvas.height / widthCell,
         columns: canvas.width / widthCell,
-        ship: new Ship ( canvas.height / widthCell/*MaxRows*/, canvas.width / widthCell/*MaxColumns*/,ctx),
+        ship: new Ship ( canvas.width/*MaxRows*/, canvas.height/*MaxColumns*/,ctx),
         ctx: ctx,
         lives: lives,
         points: points,
@@ -20,6 +22,8 @@ window.onload = function () {
         invaderbullets: invaderbullets,
         counter: counter,
         newcounter: newcounter,
+        width: width,
+        height: height,
     });
     
     //DOOM

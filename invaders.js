@@ -19,6 +19,5 @@ class Invader {
     }
     _update(){
         this.invaderY = this.invaderY + this.speed;
-    }
-    
+    }    
 };
