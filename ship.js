@@ -9,7 +9,7 @@ class Ship {
        this.maxColumns = maxColumns;
        this.intervalId = undefined;
        this.ctx = ctx;
-       this.shipSpeed = 25;
+       this.shipSpeed = 10;
        this.image = new Image ();
        this.image.src = "Assets/player1x.png";
     }
@@ -49,7 +49,7 @@ class Ship {
     }
     //SHIP SHOT
     shot(){
-        this.bullets.push(new Shot((this.bodyX + 4),(this.bodyY - 5),8,54,8,this.ctx));
+        this.bullets.push(new Shot((this.bodyX + 4),(this.bodyY - 5),8,54,10,this.ctx));
     };
 };
 

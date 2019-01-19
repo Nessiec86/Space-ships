@@ -13,12 +13,36 @@ class Game {
         this.counter = 0;
         this.newcounter = 0;
         this.newasteroid = [];
+        this.controls = [];
         this.collision = false;
     }
 
     // CONTROLES NAVE PRINCIPAL
     _assignControlsToKeys(){
-        document.onkeydown = (e) => {
+        window.addEventListener('keydown',(e) => {
+            this.controls[e.keyCode] = true;
+        });
+        window.addEventListener('keyup',(e) =>{
+            this.controls[e.keyCode] = false;
+        });
+
+        if (this.controls[38]) {
+            this.ship.goUp();
+        }
+        if (this.controls[40]) {
+            this.ship.goDown();
+        }
+        if (this.controls[37]) {
+            this.ship.goLeft();
+        }
+        if (this.controls[39]) {
+            this.ship.goRight();
+        }
+        if (this.controls[32]) {
+            this.ship.shot();
+        }
+        
+        /*document.onkeydown = (e) => {
           switch (e.keyCode) {
             case 38: //arrow up
               this.ship.goUp();
@@ -39,7 +63,7 @@ class Game {
               this.ship.intervalId ? this.ship._stop() : this.ship.start()
               break;
           }
-        };
+        };*/
     }
 
     // función para generar invaders, push a this.invaders cada X ms. NEW INVADER
@@ -68,7 +92,6 @@ class Game {
     
     //INICIO
     start(){
-        this._assignControlsToKeys();
         this._update();
         this._generateInvaders();
         this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
@@ -76,7 +99,8 @@ class Game {
     //UPDATE SCREEN
     _update(){
         this._clear();
-
+        
+        this._assignControlsToKeys();
         this._drawBoard();
         this._drawInvader();
         this._drawShot();
@@ -141,16 +165,7 @@ class Game {
     }
     //COLLISION
     _controlCollision(){
-
         this.invaderBullets.forEach((invaderShot, i ,array) => {
-           /* if((this.ship.bodyX + this.ship.image.width) >=
-                (invaderShot.randomShotX) <= 
-                (invaderShot.randomShotX + invaderShot.width) && 
-                (this.ship.bodyY + this.ship.image.height) >= 
-                (invaderShot.invaderShotY) && 
-                (this.ship.bodyY) <= 
-                (invaderShot.invaderShotY + invaderShot.height))
-            {*/
             if (this.ship.bodyX < invaderShot.randomShotX + invaderShot.width &&
                 this.ship.bodyX + this.ship.image.width > invaderShot.randomShotX &&
                 this.ship.bodyY < invaderShot.invaderShotY + invaderShot.height &&
@@ -159,24 +174,40 @@ class Game {
                 this.lives -=1;
             };
         });
-        this.ship.bullets.forEach((shipShot, i ,array) => {
-            this.newinvader.forEach((newinvader) => {
+        this.ship.bullets.forEach((shipShot, i , shot) => {
+            this.newinvader.forEach((newinvader, j ,invader) => {
                 if (shipShot.shipX < newinvader.randomX + newinvader.width &&
                     shipShot.shipX + shipShot.width > newinvader.randomX &&
                     shipShot.shipY < newinvader.invaderY + newinvader.height &&
                     shipShot.height + shipShot.shipY > newinvader.invaderY) {
-                    array.splice(i, 1);
+                    shot.splice(i, 1);
+                    invader.splice(j, 1);
                     this.points +=10;
-                    };
-             
-                });
-            })
-         
+                };
+            });
+        });
+        this.ship.bullets.forEach((shipShot, i , shot) => {
+            this.invaderBullets.forEach((invaderShot, j ,iShot) => {
+                if (shipShot.shipX < invaderShot.randomShotX + invaderShot.width &&
+                    shipShot.shipX + shipShot.width > invaderShot.randomShotX &&
+                    shipShot.shipY < invaderShot.invaderShotY + invaderShot.height &&
+                    shipShot.height + shipShot.shipY > invaderShot.invaderShotY) {
+                    shot.splice(i, 1);
+                    iShot.splice(j, 1);
+                };
+            });
+        });
+      /*  this.newasteroid.forEach((invaderShot, i ,array) => {
+            if (this.ship.bodyX < invaderShot.randomShotX + invaderShot.width &&
+                this.ship.bodyX + this.ship.image.width > invaderShot.randomShotX &&
+                this.ship.bodyY < invaderShot.invaderShotY + invaderShot.height &&
+                this.ship.image.height + this.ship.bodyY > invaderShot.invaderShotY) {
+                array.splice(i, 1);
+                this.lives -=1;
+            };
+        });*/
         
-        };
-        
-        
-    
+    };
     //SCORE
     _score(){
         this.ctx.font = "bold 16px sans-serif";
