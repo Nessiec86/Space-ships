@@ -28,7 +28,8 @@ window.onload = function () {
         game.start();
     }
     function stop(){
-        game._pause();
+        game._stop();
+        window.location.reload();
     }
     //START
     function buttonstart(){

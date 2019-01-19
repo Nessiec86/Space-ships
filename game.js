@@ -15,6 +15,7 @@ class Game {
         this.newasteroid = [];
         this.controls = [];
         this.collision = false;
+        
     }
 
     // CONTROLES NAVE PRINCIPAL
@@ -25,23 +26,18 @@ class Game {
         window.addEventListener('keyup',(e) =>{
             this.controls[e.keyCode] = false;
         });
-
         if (this.controls[38]) {
             this.ship.goUp();
-        }
+        };
         if (this.controls[40]) {
             this.ship.goDown();
-        }
+        };
         if (this.controls[37]) {
             this.ship.goLeft();
-        }
+        };
         if (this.controls[39]) {
             this.ship.goRight();
-        }
-        if (this.controls[32]) {
-            this.ship.shot();
-        }
-        
+        };
         /*document.onkeydown = (e) => {
           switch (e.keyCode) {
             case 38: //arrow up
@@ -65,8 +61,19 @@ class Game {
           }
         };*/
     }
-
-    // función para generar invaders, push a this.invaders cada X ms. NEW INVADER
+    _shotPauseKey(){
+        document.onkeydown = (e) => {
+            switch (e.keyCode) {
+                case 32: //space  
+                    this.ship.shot();
+                    break;
+                case 80:
+                    this._pause(); 
+                    break;
+            };
+        };
+    };
+    //NEW INVADER
     _generateInvaders() {
         if (!this.intervalId) {
             this.intervalId = setInterval(this._generateInvaders.bind(this), 2000);
@@ -92,6 +99,7 @@ class Game {
     
     //INICIO
     start(){
+        this._shotPauseKey();
         this._update();
         this._generateInvaders();
         this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
@@ -197,15 +205,26 @@ class Game {
                 };
             });
         });
-      /*  this.newasteroid.forEach((invaderShot, i ,array) => {
-            if (this.ship.bodyX < invaderShot.randomShotX + invaderShot.width &&
-                this.ship.bodyX + this.ship.image.width > invaderShot.randomShotX &&
-                this.ship.bodyY < invaderShot.invaderShotY + invaderShot.height &&
-                this.ship.image.height + this.ship.bodyY > invaderShot.invaderShotY) {
-                array.splice(i, 1);
+        this.ship.bullets.forEach((shipShot, i , shot) => {
+            this.newasteroid.forEach((asteroid, j ,rock) => {
+                if (shipShot.shipX < asteroid.randomX + asteroid.width &&
+                    shipShot.shipX + shipShot.width > asteroid.randomX &&
+                    shipShot.shipY < asteroid.asteroidY + asteroid.height &&
+                    shipShot.height + shipShot.shipY > asteroid.asteroidY) {
+                    shot.splice(i, 1);
+                    rock.splice(j, 1);
+                };
+            });
+        });
+        this.newasteroid.forEach((asteroid, i ,rock) => {
+            if (this.ship.bodyX < asteroid.randomX + asteroid.width &&
+                this.ship.bodyX + this.ship.image.width > asteroid.randomX &&
+                this.ship.bodyY < asteroid.asteroidY + asteroid.height &&
+                this.ship.image.height + this.ship.bodyY > asteroid.asteroidY) {
+                rock.splice(i, 1);
                 this.lives -=1;
             };
-        });*/
+        });
         
     };
     //SCORE
@@ -220,6 +239,7 @@ class Game {
             this.ctx.font = "bold 20px sans-serif";
             this.ctx.fillStyle = "yellow";
             this.ctx.fillText("Game Over!", 160, 160);
+            this._stop();
         }
     }
     //CLEAR SCREEN
@@ -231,13 +251,19 @@ class Game {
         if (this.intervalGame) {
             window.cancelAnimationFrame(this.intervalGame);
             this.intervalGame = undefined;
+            console.log("pausa!!")
+            console.log(this.intervalGame)
+        } else {
+            console.log("reanuda")
+            this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
         }
+        
     }
     //STOP GAME
     _stop(){
-        if ( this.intervalId ) {
-            clearInterval(this.intervalId)
-            this.intervalId = undefined;
+        if ( this.intervalGame ) {
+            clearInterval(this.intervalGame)
+            this.intervalGame = undefined;
         }
     }
 };
