@@ -49,7 +49,7 @@ class Ship {
     }
     //SHIP SHOT
     shot(){
-        this.bullets.push(new Shot(this.bodyX,this.bodyY,8,54,8,this.ctx));
+        this.bullets.push(new Shot((this.bodyX + 4),(this.bodyY - 5),8,54,8,this.ctx));
     };
 };
 

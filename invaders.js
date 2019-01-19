@@ -11,8 +11,6 @@ class Invader {
     }
     
     _drawInvader(){
-        //this.ctx.fillStyle = "red";
-        //this.ctx.fillRect(this.randomX,this.invaderY, 10,10);
         this.ctx.drawImage(this.image, this.randomX, this.invaderY, this.width, this.height)
     }
     _clearInvader(newinvader, i, array){

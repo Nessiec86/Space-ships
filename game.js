@@ -103,11 +103,9 @@ class Game {
     }
     //BOARD
     _drawBoard(){
-        //this.ctx.fillStyle = "#000000";
-        //this.ctx.fillRect(0,0, this.rows * 10, this.columns * 10);
         const img = new Image ();
             img.src = "Assets/Space.png";
-            this.ctx.drawImage(img,0,0 );
+            this.ctx.drawImage(img, 0, 0, (this.rows * 10), (this.columns * 10));
     }
     //SHOT
     _drawShot(){
@@ -144,25 +142,36 @@ class Game {
     //COLLISION
     _controlCollision(){
 
-        this.invaderBullets.forEach((invaderShot) => {
-            
-            /*if((this.ship.bodyX + this.ship.image.width) >=
-                (this.invaderBullets.randomShotX) <= 
-                (this.invaderBullets.randomShotX + 5) && 
+        this.invaderBullets.forEach((invaderShot, i ,array) => {
+           /* if((this.ship.bodyX + this.ship.image.width) >=
+                (invaderShot.randomShotX) <= 
+                (invaderShot.randomShotX + invaderShot.width) && 
                 (this.ship.bodyY + this.ship.image.height) >= 
-                (this.invaderBullets.invaderShotY) && 
+                (invaderShot.invaderShotY) && 
                 (this.ship.bodyY) <= 
-                (this.invaderBullets.invaderShotY + 8))
+                (invaderShot.invaderShotY + invaderShot.height))
             {*/
             if (this.ship.bodyX < invaderShot.randomShotX + invaderShot.width &&
                 this.ship.bodyX + this.ship.image.width > invaderShot.randomShotX &&
-                this.ship.bodyY < invaderShot.invaderY + invaderShot.height &&
-                this.ship.image.height + this.ship.bodyY > invaderShot.invaderY) {
-            console.log("colisionnn");
-            } else {
-                console.log("nada");
+                this.ship.bodyY < invaderShot.invaderShotY + invaderShot.height &&
+                this.ship.image.height + this.ship.bodyY > invaderShot.invaderShotY) {
+                array.splice(i, 1);
+                this.lives -=1;
             };
         });
+        this.ship.bullets.forEach((shipShot, i ,array) => {
+            this.newinvader.forEach((newinvader) => {
+                if (shipShot.shipX < newinvader.randomX + newinvader.width &&
+                    shipShot.shipX + shipShot.width > newinvader.randomX &&
+                    shipShot.shipY < newinvader.invaderY + newinvader.height &&
+                    shipShot.height + shipShot.shipY > newinvader.invaderY) {
+                    array.splice(i, 1);
+                    this.points +=10;
+                    };
+             
+                });
+            })
+         
         
         };
         

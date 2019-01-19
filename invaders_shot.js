@@ -13,7 +13,6 @@ class Invadershot {
        this.ctx.fillRect(this.randomShotX,this.invaderShotY,this.width, this.height);
     }
     _clearShot(bullet, i, array){
-        console.log()
         if (bullet.invaderShotY >= 600){
             array.splice(i, 1);
         }

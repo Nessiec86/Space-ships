@@ -1,8 +1,8 @@
 class Shot {
-    constructor(shipX,shipY,witdh,height,speed,ctx) {
+    constructor(shipX,shipY,width,height,speed,ctx) {
        this.shipX = shipX;
        this.shipY = shipY;
-       this.witdh = witdh;
+       this.width = width;
        this.height = height;
        this.speed = speed;
        this.ctx = ctx;
@@ -11,7 +11,7 @@ class Shot {
     }
 
     _drawShot () {
-        this.ctx.drawImage(this.shotImg,this.shipX + 15,this.shipY,this.witdh,this.height);
+        this.ctx.drawImage(this.shotImg,this.shipX + 15,this.shipY,this.width,this.height);
     }
     _clearShot(bullet, i, array){
         if (bullet.shipY <= 0){

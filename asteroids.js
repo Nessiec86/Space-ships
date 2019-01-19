@@ -7,7 +7,7 @@ class Asteroid {
         this.speed = speed;
         this.ctx = ctx;
         this.image = new Image ();
-        this.image.src = "Assets/asteroid1x.png";
+        this.image.src = "Assets/asteroid-white1x.png";
     }
     
     _drawAsteroid(){
