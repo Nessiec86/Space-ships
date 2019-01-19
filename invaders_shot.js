@@ -1,8 +1,8 @@
 class Invadershot {
-    constructor(randomShotX,invaderShotY,witdh,height,speed,ctx) {
+    constructor(randomShotX,invaderShotY,width,height,speed,ctx) {
        this.randomShotX = randomShotX;
        this.invaderShotY = invaderShotY;
-       this.witdh = witdh;
+       this.width = width;
        this.height = height;
        this.speed = speed;
        this.ctx = ctx;
@@ -10,10 +10,10 @@ class Invadershot {
     }
     _drawShot(){
        this.ctx.fillStyle = 'lime';
-       this.ctx.fillRect(this.randomShotX,this.invaderShotY,this.witdh, this.height);
+       this.ctx.fillRect(this.randomShotX,this.invaderShotY,this.width, this.height);
     }
     _clearShot(bullet, i, array){
-        if (bullet.invaderShotY <= 0){
+        if (bullet.invaderShotY >= 600){
             array.splice(i, 1);
         }
     }

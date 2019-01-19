@@ -5,21 +5,13 @@ window.onload = function () {
     const widthCell = 10;
     const lives = 5;
     const points = 0;
-    const bullets = [];
-    const invaderbullets = [];
-    const counter = 0;
-    const newcounter = 0;
     const game = new Game({
         rows: canvas.height / widthCell,
         columns: canvas.width / widthCell,
-        ship: new Ship ( canvas.height / widthCell/*MaxRows*/, canvas.width / widthCell/*MaxColumns*/,ctx),
+        ship: new Ship ( canvas.width/*MaxRows*/, canvas.height/*MaxColumns*/,ctx),
         ctx: ctx,
         lives: lives,
         points: points,
-        bullets: bullets,
-        invaderbullets: invaderbullets,
-        counter: counter,
-        newcounter: newcounter,
     });
     
     //DOOM
@@ -60,15 +52,8 @@ window.onload = function () {
     
 };
 
-    function buttonend(){
-        let gameover = document.getElementById("gameover");
-        end.style.display = "none";
-        gameover.style.display = "flex";
-        game.style.display = "none";
-        }
-    
-        function buttonreturn(){
-            gameover.style.display = "none";
-            start.style.display = "flex";
-    }
+function buttonreturn(){
+    gameover.style.display = "none";
+    start.style.display = "flex";
+}
     

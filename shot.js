@@ -1,20 +1,17 @@
 class Shot {
-    constructor(shipX,shipY,witdh,height,speed,ctx) {
+    constructor(shipX,shipY,width,height,speed,ctx) {
        this.shipX = shipX;
        this.shipY = shipY;
-       this.witdh = witdh;
+       this.width = width;
        this.height = height;
        this.speed = speed;
        this.ctx = ctx;
-        
+       this.shotImg = new Image ();
+       this.shotImg.src = "Assets/shot.png";
     }
+
     _drawShot () {
-       //this.ctx.fillStyle = 'lime';
-       //this.ctx.fillRect((this.shipX * 10) + 10,(this.shipY * 10),this.witdh, this.height);
-        const img = new Image ();
-        img.src = "Assets/shot.png";
-        this.ctx.drawImage(img,(this.shipX * 10) + 10,(this.shipY * 10) - 75);
-        
+        this.ctx.drawImage(this.shotImg,this.shipX + 15,this.shipY,this.width,this.height);
     }
     _clearShot(bullet, i, array){
         if (bullet.shipY <= 0){

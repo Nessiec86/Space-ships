@@ -7,6 +7,13 @@ class Game {
         this.lives = options.lives;
         this.points = options.points;
         this.bullets = options.bullets;
+        this.invaderBullets = [];
+        this.invaders = [];
+        this.newinvader = [];
+        this.counter = 0;
+        this.newcounter = 0;
+        this.newasteroid = [];
+        this.collision = false;
     }
 
     // CONTROLES NAVE PRINCIPAL
@@ -26,7 +33,7 @@ class Game {
               this.ship.goRight();
               break;
             case 32: //space  
-              this.ship._shot();
+              this.ship.shot();
               break; 
             case 80: // p pause
               this.ship.intervalId ? this.ship._stop() : this.ship.start()
@@ -34,27 +41,55 @@ class Game {
           }
         };
     }
+
+    // función para generar invaders, push a this.invaders cada X ms. NEW INVADER
+    _generateInvaders() {
+        if (!this.intervalId) {
+            this.intervalId = setInterval(this._generateInvaders.bind(this), 2000);
+        } 
+        this.newinvader.push(new Invader((Math.floor(Math.random() * ((this.ship.maxRows) - 0)) + 0),0,35,34,1,this.ctx,this.invaderBullets));
+    };
+    //INVADER SHOT
+    _generateInvaderShot(){
+        if (this.counter % 100 === 0) {
+            this.newinvader.forEach((newinvader) =>{
+                this.invaderBullets.push(new Invadershot(newinvader.randomX + 15,newinvader.invaderY + 10,5,8,2,this.ctx));
+            });
+        };
+        this.counter+=1;
+    };
+    //NEW ASTEROID
+    _generateAsteroid (){
+        if (this.newcounter % 500 === 0){
+            this.newasteroid.push(new Asteroid((Math.floor(Math.random() * ((this.ship.maxRows) - 0)) + 0),0,60,60,0.5,this.ctx));
+            }
+        this.newcounter+=1;
+    };
     
     //INICIO
     start(){
         this._assignControlsToKeys();
         this._update();
-        this.ship._invader();
+        this._generateInvaders();
         this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
     }
     //UPDATE SCREEN
     _update(){
         this._clear();
+
         this._drawBoard();
-        this._drawShip();
-        this._drawShot();
         this._drawInvader();
+        this._drawShot();
         this._drawInvaderShot();
         this._drawAsteroid();
-        this._score();
-        this.ship._invaderShot();
-        this.ship._asteroid();
+        this.ship.drawShip();
         
+        this._generateAsteroid();
+        this._generateInvaderShot();
+       
+        
+        this._score();
+        this._controlCollision();
         if (this.intervalGame !== undefined) {
             this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
         }
@@ -66,23 +101,11 @@ class Game {
             this.intervalId = setInterval(this._moveBackground.bind(this), 10);
         }
     }
-    
     //BOARD
     _drawBoard(){
-        //this.ctx.fillStyle = "#000000";
-        //this.ctx.fillRect(0,0, this.rows * 10, this.columns * 10);
         const img = new Image ();
             img.src = "Assets/Space.png";
-            this.ctx.drawImage(img,0,0 );
-    }
-    //SHIP
-    _drawShip(){
-        this.ship.body.forEach((position) => {
-            const img = new Image ();
-            img.src = "Assets/milenium-falcon1.png";
-            //img.src = "Assets/newhorizons.png"
-            this.ctx.drawImage(img,position.column * 9.7,position.row * 9 );
-        });
+            this.ctx.drawImage(img, 0, 0, (this.rows * 10), (this.columns * 10));
     }
     //SHOT
     _drawShot(){
@@ -94,7 +117,7 @@ class Game {
     }
     //INVADER
     _drawInvader(){
-        this.ship.newinvader.forEach(function(newinvader, i, array){
+        this.newinvader.forEach(function(newinvader, i, array){
             newinvader._drawInvader();
             newinvader._update();
             newinvader._clearInvader(newinvader, i, array);
@@ -102,21 +125,58 @@ class Game {
     }
     //INVADER SHOT
     _drawInvaderShot(){
-        this.ship.invaderBullets.forEach(function(bullet, i, array){
+        this.invaderBullets.forEach(function(bullet, i, array){
             bullet._drawShot();
             bullet._update();
             bullet._clearShot(bullet, i, array);
         });
     }
-    
     //ASTEROID
     _drawAsteroid(){
-        this.ship.newasteroid.forEach(function(newasteroid, i, array){
+        this.newasteroid.forEach(function(newasteroid, i, array){
             newasteroid._drawAsteroid();
             newasteroid._update();
             newasteroid._clearAsteroid(newasteroid, i, array);
         });
     }
+    //COLLISION
+    _controlCollision(){
+
+        this.invaderBullets.forEach((invaderShot, i ,array) => {
+           /* if((this.ship.bodyX + this.ship.image.width) >=
+                (invaderShot.randomShotX) <= 
+                (invaderShot.randomShotX + invaderShot.width) && 
+                (this.ship.bodyY + this.ship.image.height) >= 
+                (invaderShot.invaderShotY) && 
+                (this.ship.bodyY) <= 
+                (invaderShot.invaderShotY + invaderShot.height))
+            {*/
+            if (this.ship.bodyX < invaderShot.randomShotX + invaderShot.width &&
+                this.ship.bodyX + this.ship.image.width > invaderShot.randomShotX &&
+                this.ship.bodyY < invaderShot.invaderShotY + invaderShot.height &&
+                this.ship.image.height + this.ship.bodyY > invaderShot.invaderShotY) {
+                array.splice(i, 1);
+                this.lives -=1;
+            };
+        });
+        this.ship.bullets.forEach((shipShot, i ,array) => {
+            this.newinvader.forEach((newinvader) => {
+                if (shipShot.shipX < newinvader.randomX + newinvader.width &&
+                    shipShot.shipX + shipShot.width > newinvader.randomX &&
+                    shipShot.shipY < newinvader.invaderY + newinvader.height &&
+                    shipShot.height + shipShot.shipY > newinvader.invaderY) {
+                    array.splice(i, 1);
+                    this.points +=10;
+                    };
+             
+                });
+            })
+         
+        
+        };
+        
+        
+    
     //SCORE
     _score(){
         this.ctx.font = "bold 16px sans-serif";
