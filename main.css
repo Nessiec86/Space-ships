@@ -2,7 +2,7 @@ body{
     background-image: url("Assets/2x/mainBackground.png")
 }
 #start{
-    background-image: url("Assets/new\ game\ screen\ bg1x.jpg");
+    background-image: url("Assets/bg-newgame-screen1x.jpg");
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -41,19 +41,6 @@ body{
     display:none ;
     justify-content:center;
     border: 5px solid red;
-}
-#gameover{
-    margin: auto;
-    height: 650px;
-    width: 650px;
-    border: 5px solid red;
-    background-color: black;
-    }
-#gameover h1{
-    font:bold;
-    color:yellow;
-    font-family: sans-serif;
-    align-self: center;
 }
 canvas{
     align-self: center;

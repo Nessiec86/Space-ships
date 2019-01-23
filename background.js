@@ -7,34 +7,34 @@ class Background {
       this.y = 0;
       this.height = this.img.height;
       this.width = this.img.width;
-      this.speed = 1;
+      this.speed = -100;
       
     };
      
-    _drawBoard(img,i,array){
-      this.ctx.drawImage(img.img, img.x, img.y);
-      if (img.speed < 0) {
-        this.ctx.drawImage(img.img, 0, img.y + img.height);
-        } else {
-      this.ctx.drawImage(img.img, 0, img.y - img.height);
-    }
+    _drawBoard(img){
+        this.ctx.drawImage(img.img, 0, img.y);
+          if (this.speed < 0) {
+            this.ctx.drawImage(img.img, 0, img.y + img.height);
+          } else {
+          this.ctx.drawImage(img.img,0, img.y - img.height);
+          }
     };
-   
-    _clearScreen(imageBackground, i, array){
-      
+    
+    _clearScreen(newinvader,i,array){
+      if (newinvader.y >= 600){
+        array.splice(i, 1);
+      }
     };
   
     _update(image, i, array){
-      image.y += image.speed; 
+      image.y -= image.speed; 
       image.y %= image.height;
       
-      if (image.y === 600){
-       // array.splice(i, 1);
-      image.y = 0;  
-      }
-      
-      };
-};
+      //if (image.y === 600){
+      //array.splice(i, 1);
+      //image.y = 0;  
+      //}
+    };
 
 //========== GAME ================
 /*
@@ -52,4 +52,4 @@ drawBackground (){
     this.background.x += this.background.speed; 
     this.background.x %= this.background.width;
   };
-  */
+*/ }; 

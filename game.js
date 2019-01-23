@@ -16,6 +16,8 @@ class Game {
         this.controls = [];
         this.imageBackground = [];
         this.speedinvader = 1750;
+        this.resumeGame = new Image ();
+        this.resumeGame.src = "Assets/pause-message1x.png";
     }
 
     // CONTROLES NAVE PRINCIPAL
@@ -38,28 +40,6 @@ class Game {
         if (this.controls[39]) {
             this.ship.goRight();
         };
-        /*document.onkeydown = (e) => {
-          switch (e.keyCode) {
-            case 38: //arrow up
-              this.ship.goUp();
-              break;
-            case 40: //arror down
-              this.ship.goDown();
-              break;
-            case 37: //arror left
-              this.ship.goLeft();
-              break;
-            case 39: //arrow right
-              this.ship.goRight();
-              break;
-            case 32: //space  
-              this.ship.shot();
-              break; 
-            case 80: // p pause
-              this.ship.intervalId ? this.ship._stop() : this.ship.start()
-              break;
-          }
-        };*/
     }
     _shotPauseKey(){
         document.onkeydown = (e) => {
@@ -68,7 +48,7 @@ class Game {
                     this.ship.shot();
                     break;
                 case 80:
-                    this._pause(); 
+                    this._pause();
                     break;
             };
         };
@@ -132,13 +112,13 @@ class Game {
         //this.imageBackground.push(new Background(this.ctx));
         
         const img = new Image ();
-        img.src = "Assets/Space.png";
+        img.src = "Assets/fondo21x.jpg";
         this.ctx.drawImage(img, 0, 0, (this.rows * 10), (this.columns * 10));
             //console.log(this.imageBackground)
-        //    this.imageBackground.forEach(function(imageBackground , i ,array){
+        //   this.imageBackground.forEach(function(imageBackground , i ,array){
           //      imageBackground._drawBoard(imageBackground,i,array);
             //    imageBackground._update(imageBackground,i,array);
-              //  imageBackground._clearScreen(imageBackground, i, array);
+              //  imageBackground._clearScreen(imageBackground,i,array);
            // });
      
             
@@ -270,7 +250,7 @@ class Game {
             this.ctx.fillStyle = "yellow";
             this.ctx.drawImage(gameOverBackground,0,0);
             this.ctx.drawImage(gameOver,100,100);
-            this.ctx.fillText("Your Score:" + this.points, 120, 520 );
+            this.ctx.fillText("Your Score:" + this.points +"!!", 120, 520 );
             this._stop();
         }
     }
@@ -280,13 +260,13 @@ class Game {
     }
     //PAUSE GAME
     _pause(){
+        this.ctx.drawImage(this.resumeGame,220,280);
+            
         if (this.intervalGame) {
+            this.ctx.drawImage(this.resumeGame,220,280);
             window.cancelAnimationFrame(this.intervalGame);
             this.intervalGame = undefined;
-            console.log("pausa!!")
-            console.log(this.intervalGame)
         } else {
-            console.log("reanuda")
             this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
         }
         

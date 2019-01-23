@@ -17,10 +17,8 @@ window.onload = function () {
     //DOOM
     let btnstart = document.getElementById("btnstart");
     let btnend = document.getElementById("btnend");
-    let btnreturn = document.getElementById("btnreturn");
     btnstart.onclick = buttonstart;
     btnend.onclick = buttonend;
-    btnreturn.onclick = buttonreturn;
         
     
     //INICIO DE JUEGO !!!
@@ -42,19 +40,12 @@ window.onload = function () {
         init();
     }
     function buttonend(){
-        let gameover = document.getElementById("gameover");
         let game = document.getElementById("game");
         let end = document.getElementById("end");
         end.style.display = "none";
-        gameover.style.display = "flex";
         game.style.display = "none";
         stop();
     }
-    
 };
 
-function buttonreturn(){
-    gameover.style.display = "none";
-    start.style.display = "flex";
-}
     
