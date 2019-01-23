@@ -1,6 +1,4 @@
-# Space-ships
-
-URL https://nessiec86.github.io/Space-ships/
+# New Horizons
 
 ## Description
 Is a single player 2D videogame, (Shoot 'em up) genre.
@@ -55,7 +53,7 @@ Task definition in order of priority
 [Link url](https://trello.com/b/xpmp55Pc/space-ships)
 
 ### Git
-URls for the project repo and deploy
+[Link Game](https://nessiec86.github.io/Space-ships/)
 [Link Repo](https://github.com/Nessiec86/Space-ships)
 
 ### Slides
