@@ -14,8 +14,8 @@ class Game {
         this.newcounter = 0;
         this.newasteroid = [];
         this.controls = [];
-        this.collision = false;
-        
+        this.imageBackground = [];
+        this.speedinvader = 1750;
     }
 
     // CONTROLES NAVE PRINCIPAL
@@ -76,7 +76,7 @@ class Game {
     //NEW INVADER
     _generateInvaders() {
         if (!this.intervalId) {
-            this.intervalId = setInterval(this._generateInvaders.bind(this), 2000);
+            this.intervalId = setInterval(this._generateInvaders.bind(this), this.speedinvader);
         } 
         this.newinvader.push(new Invader((Math.floor(Math.random() * ((this.ship.maxRows) - 0)) + 0),0,35,34,1,this.ctx,this.invaderBullets));
     };
@@ -102,14 +102,15 @@ class Game {
         this._shotPauseKey();
         this._update();
         this._generateInvaders();
+        
         this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
     }
     //UPDATE SCREEN
     _update(){
         this._clear();
+        this._drawBoard();
         
         this._assignControlsToKeys();
-        this._drawBoard();
         this._drawInvader();
         this._drawShot();
         this._drawInvaderShot();
@@ -118,7 +119,6 @@ class Game {
         
         this._generateAsteroid();
         this._generateInvaderShot();
-       
         
         this._score();
         this._controlCollision();
@@ -127,18 +127,32 @@ class Game {
         }
     }
     
-    //BACKGROUND
-    _moveBackground(){
-        if (!this.intervalId) {
-            this.intervalId = setInterval(this._moveBackground.bind(this), 10);
-        }
-    }
     //BOARD
     _drawBoard(){
+        //this.imageBackground.push(new Background(this.ctx));
+        
         const img = new Image ();
-            img.src = "Assets/Space.png";
-            this.ctx.drawImage(img, 0, 0, (this.rows * 10), (this.columns * 10));
-    }
+        img.src = "Assets/Space.png";
+        this.ctx.drawImage(img, 0, 0, (this.rows * 10), (this.columns * 10));
+            //console.log(this.imageBackground)
+        //    this.imageBackground.forEach(function(imageBackground , i ,array){
+          //      imageBackground._drawBoard(imageBackground,i,array);
+            //    imageBackground._update(imageBackground,i,array);
+              //  imageBackground._clearScreen(imageBackground, i, array);
+           // });
+     
+            
+            /*this.ctx.drawImage(this.imageBackground.img, this.imageBackground.x, 0);
+            if (this.imageBackground.speed < 0) {
+                this.ctx.drawImage(this.imageBackground.img, this.imageBackground.x + this.imageBackground.width, 0);
+              } else {
+                this.ctx.drawImage(this.imageBackground.img, this.imageBackground.x - this.imageBackground.width, 0);
+              }
+           // if (this.imageBackground.x <= -600) {
+            //    this.imageBackground.x = 0;
+           // }*/ 
+            };
+    
     //SHOT
     _drawShot(){
         this.ship.bullets.forEach(function(bullet,i,array) {
@@ -184,8 +198,8 @@ class Game {
         });
         this.ship.bullets.forEach((shipShot, i , shot) => {
             this.newinvader.forEach((newinvader, j ,invader) => {
-                if (shipShot.shipX < newinvader.randomX + newinvader.width &&
-                    shipShot.shipX + shipShot.width > newinvader.randomX &&
+                if (shipShot.shipX < (newinvader.randomX - 20) + (newinvader.width + 5) &&
+                    shipShot.shipX + shipShot.width > (newinvader.randomX - 20) &&
                     shipShot.shipY < newinvader.invaderY + newinvader.height &&
                     shipShot.height + shipShot.shipY > newinvader.invaderY) {
                     shot.splice(i, 1);
@@ -196,8 +210,8 @@ class Game {
         });
         this.ship.bullets.forEach((shipShot, i , shot) => {
             this.invaderBullets.forEach((invaderShot, j ,iShot) => {
-                if (shipShot.shipX < invaderShot.randomShotX + invaderShot.width &&
-                    shipShot.shipX + shipShot.width > invaderShot.randomShotX &&
+                if (shipShot.shipX < (invaderShot.randomShotX - 30) + (invaderShot.width + 20) &&
+                    shipShot.shipX + shipShot.width > (invaderShot.randomShotX - 30) &&
                     shipShot.shipY < invaderShot.invaderShotY + invaderShot.height &&
                     shipShot.height + shipShot.shipY > invaderShot.invaderShotY) {
                     shot.splice(i, 1);
@@ -207,12 +221,13 @@ class Game {
         });
         this.ship.bullets.forEach((shipShot, i , shot) => {
             this.newasteroid.forEach((asteroid, j ,rock) => {
-                if (shipShot.shipX < asteroid.randomX + asteroid.width &&
-                    shipShot.shipX + shipShot.width > asteroid.randomX &&
+                if (shipShot.shipX < (asteroid.randomX - 20) + (asteroid.width + 5) &&
+                    shipShot.shipX + shipShot.width > (asteroid.randomX - 20) &&
                     shipShot.shipY < asteroid.asteroidY + asteroid.height &&
                     shipShot.height + shipShot.shipY > asteroid.asteroidY) {
                     shot.splice(i, 1);
                     rock.splice(j, 1);
+                    this.points +=5;
                 };
             });
         });
@@ -225,10 +240,23 @@ class Game {
                 this.lives -=1;
             };
         });
-        
+        this.newinvader.forEach((newinvader, i ,invader) => {
+            if (this.ship.bodyX < newinvader.randomX + newinvader.width &&
+                this.ship.bodyX + this.ship.image.width > newinvader.randomX &&
+                this.ship.bodyY < newinvader.invaderY + newinvader.height &&
+                this.ship.image.height + this.ship.bodyY > newinvader.invaderY) {
+                invader.splice(i, 1);
+                this.lives -=1;
+            };
+        });
     };
     //SCORE
     _score(){
+        const gameOverBackground = new Image ();
+        gameOverBackground.src = "Assets/game-over-bg1x.png";
+        const gameOver = new Image ();
+        gameOver.src = "Assets/game-over-text1x.png";
+
         this.ctx.font = "bold 16px sans-serif";
         this.ctx.fillStyle = "white";
         this.ctx.fillText("Score: "+this.points, 10, 20);
@@ -236,9 +264,13 @@ class Game {
    
         if(this.lives <= 0){
             clearTimeout(game);
-            this.ctx.font = "bold 20px sans-serif";
+            this.ctx.fillStyle = 'black';
+            this.ctx.fillRect(0,0,this.rows * 10, this.columns * 10);
+            this.ctx.font = "bold 50px sans-serif";
             this.ctx.fillStyle = "yellow";
-            this.ctx.fillText("Game Over!", 160, 160);
+            this.ctx.drawImage(gameOverBackground,0,0);
+            this.ctx.drawImage(gameOver,100,100);
+            this.ctx.fillText("Your Score:" + this.points, 120, 520 );
             this._stop();
         }
     }

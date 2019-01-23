@@ -1,15 +1,43 @@
 class Background {
-    constructor (){
-        this.img = new Image (800, 400);
-        this.img.src = 'img/AMS_img2.png';
-        this.x = 0;
-        this.width = 800;
-        this.speed = -0.5;
+    constructor (ctx){
+      this.ctx = ctx;
+      this.img = new Image ();
+      this.img.src = "Assets/space.png";
+      this.x = 0;
+      this.y = 0;
+      this.height = this.img.height;
+      this.width = this.img.width;
+      this.speed = 1;
+      
+    };
+     
+    _drawBoard(img,i,array){
+      this.ctx.drawImage(img.img, img.x, img.y);
+      if (img.speed < 0) {
+        this.ctx.drawImage(img.img, 0, img.y + img.height);
+        } else {
+      this.ctx.drawImage(img.img, 0, img.y - img.height);
+    }
+    };
+   
+    _clearScreen(imageBackground, i, array){
+      
+    };
+  
+    _update(image, i, array){
+      image.y += image.speed; 
+      image.y %= image.height;
+      
+      if (image.y === 600){
+       // array.splice(i, 1);
+      image.y = 0;  
       }
+      
+      };
 };
-/*
-//========== GAME ================
 
+//========== GAME ================
+/*
 drawBackground (){
     this.ctx.drawImage(this.background.img, this.background.x, 0);
     if (this.background.speed < 0) {
